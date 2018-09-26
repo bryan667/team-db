@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {firebaseMatches} from '../../../firebase-db'
-import {firebaseForEach} from '../../ui/misc'
+import {firebaseForEach, reverseArray} from '../../ui/misc'
+import MatchesBlock from '../../ui/matches_block'
 
 class Blocks extends Component {
 
@@ -10,14 +11,24 @@ class Blocks extends Component {
 
     componentDidMount(){
         firebaseMatches.limitToLast(6).once('value').then((snap)=> {
-            const matches = firebaseForEach(snap) 
-            console.log(snap.val())
-            console.log(matches)
+            const matches = firebaseForEach(snap)
+            
+            this.setState({
+                matches: reverseArray(matches)
+            })
         })
     }
 
-    showMatches = (val) => (
-        <div>aw</div>
+    showMatches = (matches) => (
+        matches ?
+            matches.map((match, i) => (
+                <div className='item' key={i}>
+                    <div className='wrapper' key={i}>
+                        <MatchesBlock match={match} />
+                    </div>
+                </div>
+            ))
+        :null
     )
 
     render() {
