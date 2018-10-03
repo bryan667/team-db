@@ -39,6 +39,7 @@ const FormField = ({id, formData, change}) => {
                     </div>
                 )
             break;
+            
             case('select'):
                 formTemplate = (
                     <div>
