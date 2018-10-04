@@ -11,7 +11,7 @@ class AddEditMatch extends Component {
     state = {
         matchId:'',
         formType:'Add Match',
-        forError: false,
+        formError: false,
         formSuccess:'',
         teams:[],
         formData: {
@@ -261,8 +261,7 @@ class AddEditMatch extends Component {
         for (let items in this.state.formData) {
             
             dataToSubmit[items] = this.state.formData[items].value
-            formIsValid = this.state.formData[items].valid
-            
+            formIsValid = this.state.formData[items].valid && formIsValid
         }
 
         //append thumbnails
@@ -280,7 +279,7 @@ class AddEditMatch extends Component {
                 //EDIT MATCH
                 firebaseDB.ref(`matches/${this.state.matchId}`)
                 .update(dataToSubmit).then(()=> {
-                    this.successForm('Updated correctly')
+                    this.successForm('This match has been updated')
                 }).catch((e)=> {
                     this.setState({
                         formError: true
@@ -387,7 +386,7 @@ class AddEditMatch extends Component {
 
                                 {this.state.formError ?
                                     <div className='error_label'>
-                                        Check Error
+                                        Please check some of the required fields
                                     </div>
                                     :''
                                 }
