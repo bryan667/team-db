@@ -234,14 +234,14 @@ class AddEditPlayers extends Component {
                     <div>
                         <form onSubmit={(event)=> this.submitForm(event)}>
             
-                            {/* <Fileuploader
+                            <Fileuploader
                                 dir="players"
                                 tag={"Player image"}
                                 defaultImg={this.state.defaultImg}
                                 defaultImgName={this.state.formData.image.value}
                                 resetImage={()=> this.resetImage()}
                                 filename={(filename)=> this.storeFilename(filename)}
-                            /> */}
+                            />
 
 
                             <FormField
