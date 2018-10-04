@@ -10,7 +10,7 @@ class AddEditMatch extends Component {
 
     state = {
         matchId:'',
-        formType:'Edit Match',
+        formType:'Add Match',
         forError: false,
         formSuccess:'',
         teams:[],
@@ -172,7 +172,6 @@ class AddEditMatch extends Component {
             firebaseTeams.once('value')
             .then((snap) => {
                 const teams = firebaseForEach(snap)
-                console.log(teams)
                 const teamOptions = []
                 snap.forEach((item) => {
                     teamOptions.push ({
@@ -186,7 +185,7 @@ class AddEditMatch extends Component {
         }
 
         if (!matchId) {
-            
+                getTeams(false, 'Add Match')
         } else {
             firebaseDB.ref(`matches/${matchId}`).once('value')
             .then((snap) => {
@@ -238,6 +237,71 @@ class AddEditMatch extends Component {
             formData: tempFormData,
             formError: false
         })
+    }
+
+    successForm(message) {
+        this.setState({
+            formSuccess: message
+        })
+
+        setTimeout(()=> {
+            this.setState({
+                formSuccess: ''
+            })
+        }, 2000)
+    }
+
+    submitForm(event) {
+        event.preventDefault()
+
+        let dataToSubmit = {}
+        let formIsValid = true
+
+        //for in
+        for (let items in this.state.formData) {
+            
+            dataToSubmit[items] = this.state.formData[items].value
+            formIsValid = this.state.formData[items].valid
+            
+        }
+
+        //append thumbnails
+        this.state.teams.forEach((team)=> {
+            if (team.shortName === dataToSubmit.local) {
+                dataToSubmit['localThmb'] = team.thmb
+            }
+            if (team.shortName === dataToSubmit.away) {
+                dataToSubmit['awayThmb'] = team.thmb
+            }
+        })
+
+        if (formIsValid) {
+            if (this.state.formType === 'Edit Match') {
+                //EDIT MATCH
+                firebaseDB.ref(`matches/${this.state.matchId}`)
+                .update(dataToSubmit).then(()=> {
+                    this.successForm('Updated correctly')
+                }).catch((e)=> {
+                    this.setState({
+                        formError: true
+                    })
+                })
+            } else {
+                //ADD MATCH
+                firebaseMatches.push(dataToSubmit).then(()=> {
+                    //route back to admin_matches
+                    this.props.history.push('/admin_matches')
+                }).catch((e)=> {
+                    this.setState({formError: true})
+                })
+            }
+
+        } else {
+            this.setState({
+                formError: true
+            })
+        }
+
     }
 
     render() {

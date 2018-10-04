@@ -55,11 +55,11 @@ class AdminMatches extends Component {
                                             <TableCell>{match.date}</TableCell>
                                             <TableCell>
                                                 <Link to={`/admin_matches/edit_match/${match.id}`}>
-                                                    {match.away} -- {match.local}
+                                                    {match.away} - {match.local}
                                                 </Link>
                                             </TableCell>
                                             <TableCell>
-                                                {match.resultAway}--{match.resultLocal}
+                                                {match.resultAway}-{match.resultLocal}
                                             </TableCell>
                                             <TableCell>
                                                 {match.final === 'Yes' ?
