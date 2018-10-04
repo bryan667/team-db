@@ -4,7 +4,7 @@ import FormField from '../../ui/formFields'
 import {validateFunction} from '../../ui/misc'
 
 import {firebaseTeams, firebaseDB, firebaseMatches} from '../../../firebase-db'
-import { firebaseForEach, reverseArray } from '../../ui/misc'
+import { firebaseForEach } from '../../ui/misc'
 
 class AddEditMatch extends Component {
 

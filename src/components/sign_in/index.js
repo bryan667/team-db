@@ -83,7 +83,6 @@ class SignIn extends Component {
                 dataToSubmit.password
             ).then(()=> {
                 this.props.history.push('/dashboard')
-                console.log(this.props.history)
             }).catch(error => {
                 this.setState({
                     formError: true
