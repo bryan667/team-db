@@ -392,7 +392,7 @@ class AddEditMatch extends Component {
                                 }
 
                                 <div className='admin_submit'>
-                                    <button onClick={(event) => this.submitForm(event)}>
+                                    <button onClick={(event) => this.submitForm(event)} style={{cursor:'pointer'}}>
                                         {this.state.formType}
                                     </button>
                                 </div>

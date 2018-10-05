@@ -3,7 +3,7 @@ import { firebase } from '../../firebase-db'
 import FileUploader from 'react-firebase-file-uploader'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-class Fileuploader extends Component {
+class FileLocalUploader extends Component {
 
     state = {
         name:'',
@@ -25,8 +25,6 @@ class Fileuploader extends Component {
 
      handleUploadSuccess = (filename) => {
 
-        console.log(filename)
-
         this.setState({
             name:filename,
             isUploading:false
@@ -38,11 +36,12 @@ class Fileuploader extends Component {
             this.setState({fileURL: url })
         })
 
-        this.props.filename(filename)
+        this.props.filename(filename)  //storeFilename() function from addeditplayer
 
      }
 
 
+    //check
     static getDerivedStateFromProps(props,state){
         if(props.defaultImg){
             return state = {
@@ -60,7 +59,7 @@ class Fileuploader extends Component {
             isUploading:false,
             fileURL:''
         });
-        this.props.resetImage();
+        this.props.resetImage(); //function from addeditplayer.js
     }
 
     render() {
@@ -101,7 +100,7 @@ class Fileuploader extends Component {
                             src={this.state.fileURL}
                             alt={this.state.name}
                         />
-                        <div className="remove" onClick={()=>this.uploadAgain()}>
+                        <div className="remove" style={{cursor:'pointer'}} onClick={()=>this.uploadAgain()}>
                             Remove
                         </div>
                     </div>
@@ -113,4 +112,4 @@ class Fileuploader extends Component {
     }
 }
 
-export default Fileuploader;
+export default FileLocalUploader;

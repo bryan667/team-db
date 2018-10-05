@@ -4,7 +4,7 @@ import AdminLayout from '../../../high-order-comp/admin-layout'
 import FormField from '../../ui/formFields'
 import { validateFunction } from '../../ui/misc'
 
-import Fileuploader from '../../ui/fileuploader'
+import FileLocalUploader from '../../ui/fileuploader'
 import { firebasePlayers, firebaseDB, firebase } from '../../../firebase-db'
 
 class AddEditPlayers extends Component {
@@ -111,13 +111,15 @@ class AddEditPlayers extends Component {
 
 
     componentDidMount(){
+        console.log('props', this.props)
         const playerId = this.props.match.params.id;
 
         if(!playerId){
             this.setState({
-                formType:'Add player'
+                formType:'Add Player'
             })
         } else {
+            console.log('awyis')
            firebaseDB.ref(`players/${playerId}`).once('value')
            .then(snapshot => {
                const playerData = snapshot.val();
@@ -125,12 +127,12 @@ class AddEditPlayers extends Component {
                 firebase.storage().ref('players')
                 .child(playerData.image).getDownloadURL()
                 .then( url => {
-                    this.updateFields(playerData,playerId,'Edit player',url)
+                    this.updateFields(playerData,playerId,'Edit Player',url)
                 }).catch( e => {
                     this.updateFields({
                         ...playerData,
                         image:''
-                    },playerId,'Edit player','')
+                    },playerId,'Edit Player','')
                 })
            })
         }
@@ -188,7 +190,7 @@ class AddEditPlayers extends Component {
             if(this.state.formType === 'Edit player'){
                 firebaseDB.ref(`players/${this.state.playerId}`)
                 .update(dataToSubmit).then(()=>{
-                    this.successForm('Update correctly');
+                    this.successForm('Player has been updated');
                 }).catch(e=>{
                     this.setState({formError: true})
                 })
@@ -234,9 +236,9 @@ class AddEditPlayers extends Component {
                     <div>
                         <form onSubmit={(event)=> this.submitForm(event)}>
             
-                            <Fileuploader
+                            <FileLocalUploader
                                 dir="players"
-                                tag={"Player image"}
+                                tag={"Player Image"}
                                 defaultImg={this.state.defaultImg}
                                 defaultImgName={this.state.formData.image.value}
                                 resetImage={()=> this.resetImage()}
@@ -269,15 +271,15 @@ class AddEditPlayers extends Component {
                                 change={(event)=> this.updateForm(event)}
                             />
 
-                        <div className="success_label">{this.state.formSuccess}</div>
-                            {this.state.formError ? 
-                                <div className="error_label">
-                                    Please check fields
-                                </div>
-                                : ''
-                            }
+                            <div className="success_label">{this.state.formSuccess}</div>
+                                {this.state.formError ? 
+                                    <div className="error_label">
+                                        Please verify all fields are correct
+                                    </div>
+                                    : ''
+                                }
                             <div className="admin_submit">
-                                <button onClick={(event)=> this.submitForm(event)}>
+                                <button onClick={(event)=> this.submitForm(event)} style={{cursor:'pointer'}}>
                                     {this.state.formType}
                                 </button>
                             </div>
