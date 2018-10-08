@@ -25,7 +25,7 @@ class MatchesList extends Component {
 
                     start={()=>({
                         opacity:0,
-                        x:-200
+                        x:-1000,
                     })}
 
                     enter={(d,i)=>({
@@ -42,13 +42,13 @@ class MatchesList extends Component {
 
                     leave={(d,i)=>({
                         opacity:[0],
-                        x:[-200],
+                        x:[-1000],
                         timing:{duration: 500, delay: i * 50, ease: easePolyOut}
                     })}
                 >
                     {(nodes)=>(
                         <div>
-                            { nodes.map(({key, data, state:{ x, opacity}})=>(
+                            {nodes.map(({key, data, state:{ x, y, opacity}})=>(
                                 <div 
                                     key={key} 
                                     className="match_box_big"
