@@ -11,7 +11,7 @@ const PrivateRoutes = ({
                 if (user !== null) {
                     return <Comp {...props} user={user}></Comp>
                 } else {
-                    return <Redirect to='sign_in'></Redirect>
+                    return <Redirect to='/sign_in'></Redirect>
                 }
             }}>
             </Route>

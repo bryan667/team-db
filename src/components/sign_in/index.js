@@ -114,10 +114,15 @@ class SignIn extends Component {
                                 formData={this.state.formData.password}
                                 change={(event) => this.updateForm(event)}
                         ></FormField>
-                        <button onClick={(event) => this.submitForm(event)}>Login</button>
+                        <button style={{cursor:'pointer'}} onClick={(event) => this.submitForm(event)}>Login</button>
                     </form>
+                    {this.state.formError ?
+                    <div className='error_label'>
+                        Incorrect credentials
+                    </div>
+                    :''
+                    }
                 </div>
-                
             </div>
         );
     }
