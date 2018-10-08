@@ -27,7 +27,6 @@ class LeagueTable extends Component {
     componentDidMount(){
         firebaseDB.ref('positions').once('value').then((snapshot) => {
             const positions = firebaseForEach(snapshot);
-
             this.setState({
                 positions: positions
             })
@@ -49,9 +48,6 @@ class LeagueTable extends Component {
             ))
             :null
     )
-
-    
-   
 
     render() {
         

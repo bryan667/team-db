@@ -8,14 +8,13 @@ import LeagueTable from './table.js'
 import MatchesList from './matches_list'
 
 
-
 class TheMatches extends Component {
 
     state = {
         loading: true,
-        matches: [],
-        filterMatches: [],
-        playerFilter: 'All',
+        matches: [], //keeps the original state of all matches from firebase
+        filterMatches: [], //keeps current matches based on filter clicked
+        playedFilter: 'All',
         resultFilter: 'All'
     }
 
@@ -36,7 +35,7 @@ class TheMatches extends Component {
         });
         
         this.setState({
-            filterMatches: played === 'All' ? this.state.matches : list,
+            filterMatches: (played === 'All' ? this.state.matches : list),
             playedFilter: played,
             resultFilter: 'All'
         })
@@ -48,12 +47,11 @@ class TheMatches extends Component {
         });
         
         this.setState({
-            filterMatches: result === 'All' ? this.state.matches : list,
+            filterMatches: (result === 'All' ? this.state.matches : list),
             playedFilter: 'All',
             resultFilter: result
         })
     }
-
 
     render() {
         const state = this.state
@@ -107,12 +105,20 @@ class TheMatches extends Component {
                                 </div>
                             </div>
                         </div>
+                        <div style={{
+                                margin: 'auto',
+                                width: '0%'
+                            }}>
+                            { this.state.loading ?
+                                <CircularProgress thickness={7} style={{color:'#98c5e9'}}/>
+                                :''
+                            }
+                        </div>
                         <MatchesList matches={this.state.filterMatches}/>
                     </div>
                     <div className='right'>
                         <LeagueTable/>
                     </div>
-
                 </div>
             </div>
         );
